@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
-* Студент: [Anna Korobkova](https://up.htmlacademy.ru/javascript-individual/2/user/1794343).
-* Наставник: [Олег Глущенко](https://up.htmlacademy.ru/javascript-individual/2/user/305355).
+* Студент: [Anna Korobkova] (https://up.htmlacademy.ru/javascript-individual/2/user/1794343).
+* Наставник: [Олег Глущенко] (https://up.htmlacademy.ru/javascript-individual/2/user/305355).
 
 ---
 
