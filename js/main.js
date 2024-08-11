@@ -8,7 +8,6 @@ const NAMES = [
   'Кармайкл',
   'Стив',
 ];
-const description = 'Я купил фотоаппарат, глядите, как снимает!';
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -17,23 +16,20 @@ const MESSAGES = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
-
-const SIMILAR_PHOTO_COUNT = 1;
+const description = 'Я купил фотоаппарат, глядите, как снимает!';
 
 function getRandomInteger (min, max) {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
   const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
   const result = Math.random() * (upper - lower + 1) + lower;
-
   return Math.floor(result);
 }
+
 function createRandomIdFromRangeGenerator (min, max) {
   const previousValues = [];
-
   return function () {
     let currentValue = getRandomInteger(min, max);
     if (previousValues.length >= (max - min + 1)) {
-      console.error('Перебраны все числа из диапазона от ' + min + ' до ' + max);
       return null;
     }
     while (previousValues.includes(currentValue)) {
@@ -47,42 +43,42 @@ const generatePhotoId = createRandomIdFromRangeGenerator(1, 25);
 const generateUrl = createRandomIdFromRangeGenerator(1, 25); //photos/{{i}}.jpg
 const generatelikes = createRandomIdFromRangeGenerator(15, 200);
 const generateCommentsId = createRandomIdFromRangeGenerator(0, (Math.random()) * 10000);
-const generateAvatarNumber = createRandomIdFromRangeGenerator(1, 6); //img/avatar-{{случайное число от 1 до 6}}.svg
-const generateName = getRandomInteger(0, NAMES.length - 1);
-const generateMessage = getRandomInteger(0, MESSAGES.length - 1);
 
-function createComments () {
-  const totalComments = [];
-  const generateCommentsCount = createRandomIdFromRangeGenerator(0, 30); //до 30
-  if (generateCommentsCount === 0) {
-    return 'Комментариев нет';
-  }
-  for (let i = 0; i <= generateCommentsCount; i++) {
-    const comment = {
-      id: generateCommentsId(), //- уникальное любое число,
-      avatar: 'img/avatar-' + generateAvatarNumber() + '.svg', // 'img/avatar-6.svg',
-      message: MESSAGES[generateMessage], //'В целом всё неплохо. Но не всё.',
-      name: NAMES[generateName], //'Артём',
-    };
-    totalComments.push(comment);
-  }
-  //const similarComments = Array.from({length: generateCommentsCount, CreateComments});
 
-  return totalComments;
-}
-function createPhotoDescription () {
+const createComments = function () {
 
-  return {
-    id: generatePhotoId(),
-    url: 'photos/' + generateUrl() + '.jpg',
-    description: description,
-    likes: generatelikes(),
-    comments: createComments(),
+  return function () {
+    const generateAvatarNumber = getRandomInteger(1, 6); //img/avatar-{{случайное число от 1 до 6}}.svg
+    const generateName = getRandomInteger(0, NAMES.length - 1);
+    const generateMessage = getRandomInteger(0, MESSAGES.length - 1);
+    const generateCommentsCount = getRandomInteger(0, 30);
+    const comment = {};
+
+    if (generateCommentsCount === 0) {
+      return 'Комментариев нет';
+    }
+    comment.id = generateCommentsId(); //- уникальное любое число,
+    comment.avatar = `img/avatar-${generateAvatarNumber}.svg`; // 'img/avatar-6.svg',
+    comment.message = MESSAGES[generateMessage];
+    comment.name = NAMES[generateName];
+    return comment;
   };
+};
+
+function createPhotoDescription () {
+  const generateCommentsCount = getRandomInteger(0, 30);
+  const photo = {};
+  photo.id = generatePhotoId();
+  photo.url = `photos/${generateUrl()}.jpg`;
+  photo.description = description;
+  photo.likes = generatelikes();
+  photo.comments = Array.from({length: generateCommentsCount}, createComments());
+  return photo;
 }
 
+const SIMILAR_PHOTO_COUNT = 25;
 const similarPhotoDescription = Array.from({length: SIMILAR_PHOTO_COUNT}, createPhotoDescription);
-
+//eslint-disable-next-line
 console.log(similarPhotoDescription);
 
 
