@@ -45,3 +45,21 @@ extractNumber('1 кефир, 0.5 батона'); // 105
 extractNumber('агент 007');// 7
 extractNumber('а я томат');// NaN
 
+//It's time for business
+const convertHoursToMinutes = (time) => {
+  const result = time.split(':');
+
+  return Number(result[0]) * 60 + Number(result[1]);
+};
+const checkTime = function(timeStart, timeEnd, timeMeeting, timeDuration) {
+  const minutesStart = convertHoursToMinutes(timeStart);
+  const minutesEnd = convertHoursToMinutes(timeEnd);
+  const minutesMeeting = convertHoursToMinutes(timeMeeting);
+  return minutesMeeting >= minutesStart && (minutesMeeting + timeDuration) <= minutesEnd;
+};
+
+checkTime('08:00', '17:30', '14:00', 90); // true
+checkTime('8:0', '10:0', '8:0', 120); // true
+checkTime('08:00', '14:30', '14:00', 90); // false
+checkTime('14:00', '17:30', '08:0', 90); // false
+checkTime('8:00', '17:30', '08:00', 900); // false
