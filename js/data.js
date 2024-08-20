@@ -32,12 +32,8 @@ const createComments = function () {
     const generateAvatarNumber = getRandomInteger(1, 6); //img/avatar-{{случайное число от 1 до 6}}.svg
     const generateName = getRandomInteger(0, NAMES.length - 1);
     const generateMessage = getRandomInteger(0, MESSAGES.length - 1);
-    const generateCommentsCount = getRandomInteger(0, 30);
     const comment = {};
 
-    if (generateCommentsCount === 0) {
-      return 'Комментариев нет';
-    }
     comment.id = generateCommentsId(); //- уникальное любое число,
     comment.avatar = `img/avatar-${generateAvatarNumber}.svg`; // 'img/avatar-6.svg',
     comment.message = MESSAGES[generateMessage];
