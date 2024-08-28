@@ -19,15 +19,12 @@ const MESSAGES = [
 ];
 const description = 'Я купил фотоаппарат, глядите, как снимает!';
 
-
 const generatePhotoId = createRandomIdFromRangeGenerator(1, 25);
 const generateUrl = createRandomIdFromRangeGenerator(1, 25); //photos/{{i}}.jpg
 const generatelikes = createRandomIdFromRangeGenerator(15, 200);
 const generateCommentsId = createRandomIdFromRangeGenerator(0, (Math.random()) * 10000);
 
-
 const createComments = function () {
-
   return function () {
     const generateAvatarNumber = getRandomInteger(1, 6); //img/avatar-{{случайное число от 1 до 6}}.svg
     const generateName = getRandomInteger(0, NAMES.length - 1);
