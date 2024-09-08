@@ -42,6 +42,7 @@ function openPopup (pictureId) {
     bigPicture.querySelector('.comments-loader').classList.add('hidden');
   }
 }
+
 function closePopup () {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');

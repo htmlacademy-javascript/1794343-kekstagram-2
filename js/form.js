@@ -1,4 +1,5 @@
 import {isEscapeKey} from './util.js';
+import {clearFilter, clearScale} from './photo-effects/photo-effects.js';
 
 const form = document.querySelector('.img-upload__form');
 const imgUploadInput = form.querySelector('.img-upload__input');
@@ -6,6 +7,7 @@ const imgUploadOverlay = form.querySelector('.img-upload__overlay');
 const imgUploadCancel = form.querySelector('.img-upload__cancel');
 const textDescription = form.querySelector('.text__description');
 const textHashtags = form.querySelector('.text__hashtags');
+
 
 //Открытие и закрытие
 
@@ -21,7 +23,9 @@ const onDocumentKeydown = (evt) => {
 };
 
 function openForm () {
+
   imgUploadOverlay.classList.remove('hidden');
+
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 }
@@ -36,6 +40,8 @@ function closeForm () {
   textDescription.value = '';
   textHashtags.value = '';
   imgUploadOverlay.classList.add('hidden');
+  clearScale();
+  clearFilter();
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
 }
@@ -131,7 +137,7 @@ const submitForm = (evt) => {
   evt.preventDefault();
 
   if (pristine.validate()) {
-    textHashtags.value = textHashtags.value.trim().replaceAll(' ', '');
+    textHashtags.value = textHashtags.value.trim();
     form.submit();
   }
 };
