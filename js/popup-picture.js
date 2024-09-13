@@ -1,5 +1,4 @@
 import {isEscapeKey} from './util.js';
-import {photoDescriptions} from './thumbnails.js';
 import {clearComments, generateComments} from './comments.js';
 
 const picturesBlock = document.querySelector('.pictures');
@@ -16,31 +15,31 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-picturesBlock.addEventListener('click', (evt) => {
+/*picturesBlock.addEventListener('click', (evt) => {
   const currentPhoto = evt.target.closest('.picture');
   if (currentPhoto) {
     evt.preventDefault();
     openPopup(currentPhoto.dataset.pictureId);
   }
-});
+});*/
 
-function openPopup (pictureId) {
-  const currentPhoto = photoDescriptions.find((photo) =>
-    photo.id === Number(pictureId));
-
-  bigPictureImg.src = currentPhoto.url;
-  bigPictureSocialCaption.textContent = currentPhoto.description;
-  bigPicturelikescount.textContent = currentPhoto.likes;
-  generateComments(currentPhoto.comments);
-
-  bigPicture.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
-
-  if (currentPhoto.comments.length === 0) {
-    bigPicture.querySelector('.social__comment-count').innerHTML = 'Комментариев нет...';
-    bigPicture.querySelector('.comments-loader').classList.add('hidden');
-  }
+function openPopup (data) {
+  picturesBlock.addEventListener('click', (evt) => {
+    const currentElement = evt.target.closest('.picture');
+    if (currentElement) {
+      evt.preventDefault();
+      const currentId = currentElement.dataset.pictureId;
+      const currentPhoto = data.find((photo) =>
+        photo.id === Number(currentId));
+      bigPictureImg.src = currentPhoto.url;
+      bigPictureSocialCaption.textContent = currentPhoto.description;
+      bigPicturelikescount.textContent = currentPhoto.likes;
+      generateComments(currentPhoto.comments);
+      bigPicture.classList.remove('hidden');
+      document.body.classList.add('modal-open');
+      document.addEventListener('keydown', onDocumentKeydown);
+    }
+  });
 }
 
 function closePopup () {

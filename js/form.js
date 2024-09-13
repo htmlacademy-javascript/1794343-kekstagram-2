@@ -1,5 +1,7 @@
 import {isEscapeKey} from './util.js';
 import {clearFilter, clearScale} from './photo-effects/photo-effects.js';
+import {sendData} from './api.js';
+import {appendNotifiction} from './notification.js';
 
 const form = document.querySelector('.img-upload__form');
 const imgUploadInput = form.querySelector('.img-upload__input');
@@ -7,7 +9,11 @@ const imgUploadOverlay = form.querySelector('.img-upload__overlay');
 const imgUploadCancel = form.querySelector('.img-upload__cancel');
 const textDescription = form.querySelector('.text__description');
 const textHashtags = form.querySelector('.text__hashtags');
-
+const submitButton = form.querySelector('.img-upload__submit');
+const imgUploadPreview = document.querySelector('.img-upload__preview img');
+const effectsPreviews = document.querySelectorAll('.effects__preview');
+const errorTemplate = document.querySelector('#error').content;
+const successTemplate = document.querySelector('#success').content;
 
 //Открытие и закрытие
 
@@ -23,15 +29,24 @@ const onDocumentKeydown = (evt) => {
 };
 
 function openForm () {
-
   imgUploadOverlay.classList.remove('hidden');
-
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 }
 
 imgUploadInput.addEventListener('change', (evt) => {
   evt.preventDefault();
+  const file = imgUploadInput.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.addEventListener('load', (event) => {
+      imgUploadPreview.src = event.target.result;
+      effectsPreviews.forEach((effectsPreview) => {
+        effectsPreview.style.backgroundImage = `url(${event.target.result})`;
+      });
+    });
+    reader.readAsDataURL(file);
+  }
   openForm();
 });
 
@@ -53,7 +68,7 @@ imgUploadCancel.addEventListener('click', (evt) => {
 
 // Валидация
 const COMMENTS_LENGTH_MAX = 140;
-const HASHTAG = {
+const Hashtag = {
   LENGTH_MIN: 2,
   LENGTH_MAX: 20,
   COUNT_MAX: 5
@@ -97,8 +112,8 @@ function validateHashtags (value) {
       error: 'хэштеги разделяются пробелами'
     },
     {
-      check: hashtags.length > HASHTAG.COUNT_MAX,
-      error: `не более ${HASHTAG.COUNT_MAX} хэштегов`
+      check: hashtags.length > Hashtag.COUNT_MAX,
+      error: `не более ${Hashtag.COUNT_MAX} хэштегов`
     },
     {
       check: hashtags.some((hashtag, i) => hashtags.includes(hashtag, i + 1)),
@@ -109,15 +124,15 @@ function validateHashtags (value) {
       error: 'должен начинаться с #'
     },
     {
-      check: hashtags.some((hashtag) => hashtag.length > HASHTAG.LENGTH_MAX || hashtag.length < HASHTAG.LENGTH_MIN),
-      error: `должен быть от ${HASHTAG.LENGTH_MIN} до ${HASHTAG.LENGTH_MAX} символов, включая #`
+      check: hashtags.some((hashtag) => hashtag.length > Hashtag.LENGTH_MAX || hashtag.length < Hashtag.LENGTH_MIN),
+      error: `должен быть от ${Hashtag.LENGTH_MIN} до ${Hashtag.LENGTH_MAX} символов, включая #`
     },
     {
       check: hashtags.some((hashtag) => !/^#[a-zа-яё0-9]{1,19}$/i.test(hashtag)),
       error: 'должен состоять только из букв и цифр'
     },
-
   ];
+
   return patterns.every((pattern) => {
     const isInvalid = pattern.check;
     if (isInvalid) {
@@ -133,13 +148,58 @@ pristine.addValidator(
   error
 );
 
-const submitForm = (evt) => {
-  evt.preventDefault();
+//Отправка формы
 
+const SubmitButtonText = {
+  IDLE: 'Отправить',
+  SENDING: 'Отправляю...'
+};
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
+
+const setSubmitForm = async () => {
   if (pristine.validate()) {
-    textHashtags.value = textHashtags.value.trim();
-    form.submit();
+    blockSubmitButton();
+
+    try {
+      await sendData(new FormData(form));
+      appendNotifiction(successTemplate, () => closeForm());
+    } catch {
+      appendNotifiction(errorTemplate);
+    } finally {
+      unblockSubmitButton();
+    }
   }
 };
 
-form.addEventListener('submit', submitForm);
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  setSubmitForm();
+});
+
+/*const setSubmitForm = () => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    if (pristine.validate()) {
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then(
+          appendNotifiction(successTemplate, () => closeForm())
+        )
+        .catch(
+          appendNotifiction(errorTemplate)
+        )
+        .finally(unblockSubmitButton);
+    }
+  });
+};
+*/
+export {setSubmitForm, closeForm};
