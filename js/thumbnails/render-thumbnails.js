@@ -1,9 +1,9 @@
 const picturesBlock = document.querySelector('.pictures');
-const pictureFragment = document.querySelector('#picture').content.querySelector('.picture');
+const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const photoDescriptions = (similarPhotoDescription) => {
+const renderPhotoDescriptions = (similarPhotoDescription) => {
   similarPhotoDescription.forEach(({id, url, description, likes, comments}) => {
-    const photoDescriptionItem = pictureFragment.cloneNode(true);
+    const photoDescriptionItem = pictureTemplate.cloneNode(true);
     photoDescriptionItem.dataset.pictureId = id;
     photoDescriptionItem.querySelector('.picture__img').src = url;
     photoDescriptionItem.querySelector('.picture__img').alt = description;
@@ -13,4 +13,4 @@ const photoDescriptions = (similarPhotoDescription) => {
   });
 };
 
-export {photoDescriptions};
+export {renderPhotoDescriptions};

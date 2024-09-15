@@ -31,17 +31,17 @@ function generateNextComments () {
   }
 }
 
-function clearComments () {
+const generateComments = (currentPhotoComments) => {
+  comments = currentPhotoComments;
+  generateNextComments();
+  commentsLoader.addEventListener('click', generateNextComments);
+};
+
+const clearComments = () => {
   currentCount = 0;
   socialComments.innerHTML = '';
   commentsLoader.classList.remove('hidden');
   commentsLoader.removeEventListener('click', generateNextComments);
-}
-
-function generateComments (currentPhotoComments) {
-  comments = currentPhotoComments;
-  generateNextComments();
-  commentsLoader.addEventListener('click', generateNextComments);
-}
+};
 
 export {clearComments, generateComments};

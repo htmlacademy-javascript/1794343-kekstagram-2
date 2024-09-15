@@ -3,14 +3,13 @@ const ALERT_SHOW_TIME = 5000;
 const DEBOUNCE_DELAY = 500;
 
 const appendDataError = (errorMessage) => {
-  const notificationNode = errorTemplate.cloneNode(true);
+  const notificationBlock = errorTemplate.cloneNode(true);
   if (errorMessage) {
-    notificationNode.querySelector('.data-error__title').textContent = errorMessage;
+    notificationBlock.querySelector('.data-error__title').textContent = errorMessage;
   }
-  document.body.append(notificationNode);
+  document.body.append(notificationBlock);
 
   const errorArea = document.body.querySelector('.data-error');
-
   setTimeout(() => {
     errorArea.remove();
   }, ALERT_SHOW_TIME);

@@ -15,8 +15,8 @@ const closeNotification = (evt) => {
 
 const appendNotifiction = (template, trigger = null) => {
   trigger?.();
-  const notificationNode = template.cloneNode(true);
-  body.append(notificationNode);
+  const notificationBlock = template.cloneNode(true);
+  body.append(notificationBlock);
   body.addEventListener('click', closeNotification);
   body.addEventListener('keydown', closeNotification);
 };

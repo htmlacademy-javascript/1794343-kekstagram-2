@@ -15,18 +15,19 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-function setupPopup (data) {
+const setupPopup = (data) => {
   picturesBlock.addEventListener('click', (evt) => {
     const currentElement = evt.target.closest('.picture');
-    const currentId = currentElement.dataset.pictureId;
-    const currentPhoto = data.find((photo) =>
-      photo.id === Number(currentId));
     if (currentElement) {
+      const currentId = currentElement.dataset.pictureId;
+      const currentPhoto = data.find((photo) =>
+        photo.id === Number(currentId));
       evt.preventDefault();
       openPopup(currentPhoto);
     }
   });
-}
+};
+
 function openPopup (currentPhoto) {
   bigPictureImg.src = currentPhoto.url;
   bigPictureSocialCaption.textContent = currentPhoto.description;
@@ -36,34 +37,6 @@ function openPopup (currentPhoto) {
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 }
-
-
-/*picturesBlock.addEventListener('click', (evt) => {
-  const currentPhoto = evt.target.closest('.picture');
-  if (currentPhoto) {
-    evt.preventDefault();
-    openPopup(currentPhoto.dataset.pictureId);
-  }
-});*/
-
-/*function openPopup (data) {
-  picturesBlock.addEventListener('click', (evt) => {
-    const currentElement = evt.target.closest('.picture');
-    if (currentElement) {
-      evt.preventDefault();
-      const currentId = currentElement.dataset.pictureId;
-      const currentPhoto = data.find((photo) =>
-        photo.id === Number(currentId));
-      bigPictureImg.src = currentPhoto.url;
-      bigPictureSocialCaption.textContent = currentPhoto.description;
-      bigPicturelikescount.textContent = currentPhoto.likes;
-      generateComments(currentPhoto.comments);
-      bigPicture.classList.remove('hidden');
-      document.body.classList.add('modal-open');
-      document.addEventListener('keydown', onDocumentKeydown);
-    }
-  });
-}*/
 
 function closePopup () {
   bigPicture.classList.add('hidden');

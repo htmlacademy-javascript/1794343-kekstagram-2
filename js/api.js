@@ -9,7 +9,7 @@ const Method = {
   POST: 'POST'
 };
 
-const load = (route, method = Method.GET, body = null) =>
+const loadData = (route, method = Method.GET, body = null) =>
   fetch(`${BASE_URL}${route}`, {method, body})
     .then((response) => {
       if (!response.ok) {
@@ -21,8 +21,8 @@ const load = (route, method = Method.GET, body = null) =>
       throw new Error(err.message);
     });
 
-const getData = () => load(Route.GET_DATA);
+const getData = () => loadData(Route.GET_DATA);
 
-const sendData = (body) => load(Route.SEND_DATA, Method.POST, body);
+const sendData = (body) => loadData(Route.SEND_DATA, Method.POST, body);
 
 export {getData, sendData};
