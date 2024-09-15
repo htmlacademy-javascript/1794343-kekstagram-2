@@ -1,4 +1,4 @@
-import {isEscapeKey} from './util.js';
+import {isEscapeKey, appendDataError} from './util.js';
 import {clearFilter, clearScale} from './photo-effects/photo-effects.js';
 import {sendData} from './api.js';
 import {appendNotifiction} from './notification.js';
@@ -34,22 +34,6 @@ function openForm () {
   document.addEventListener('keydown', onDocumentKeydown);
 }
 
-imgUploadInput.addEventListener('change', (evt) => {
-  evt.preventDefault();
-  const file = imgUploadInput.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.addEventListener('load', (event) => {
-      imgUploadPreview.src = event.target.result;
-      effectsPreviews.forEach((effectsPreview) => {
-        effectsPreview.style.backgroundImage = `url(${event.target.result})`;
-      });
-    });
-    reader.readAsDataURL(file);
-  }
-  openForm();
-});
-
 function closeForm () {
   imgUploadInput.value = '';
   textDescription.value = '';
@@ -64,6 +48,25 @@ function closeForm () {
 imgUploadCancel.addEventListener('click', (evt) => {
   evt.preventDefault();
   closeForm();
+});
+
+// подстановка фото файла
+
+const FILE_TYPES = ['.jpg', '.jpeg', '.png', '.gif', '.gfif'];
+
+imgUploadInput.addEventListener('change', () => {
+  const file = imgUploadInput.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((item) => fileName.endsWith(item));
+  if (matches) {
+    imgUploadPreview.src = URL.createObjectURL(file);
+    effectsPreviews.forEach((effectsPreview) => {
+      effectsPreview.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
+    });
+  } else {
+    appendDataError('Неверный формат файла, используйте jpg, jpeg, png, gif, gfif');
+  }
+  openForm();
 });
 
 // Валидация
@@ -165,18 +168,17 @@ const unblockSubmitButton = () => {
   submitButton.textContent = SubmitButtonText.IDLE;
 };
 
-const setSubmitForm = async () => {
+const setSubmitForm = () => {
   if (pristine.validate()) {
     blockSubmitButton();
-
-    try {
-      await sendData(new FormData(form));
-      appendNotifiction(successTemplate, () => closeForm());
-    } catch {
-      appendNotifiction(errorTemplate);
-    } finally {
-      unblockSubmitButton();
-    }
+    sendData(new FormData(form))
+      .then(
+        () => appendNotifiction(successTemplate, () => closeForm())
+      )
+      .catch(
+        () => appendNotifiction(errorTemplate)
+      )
+      .finally(unblockSubmitButton);
   }
 };
 
@@ -185,21 +187,4 @@ form.addEventListener('submit', (evt) => {
   setSubmitForm();
 });
 
-/*const setSubmitForm = () => {
-  form.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    if (pristine.validate()) {
-      blockSubmitButton();
-      sendData(new FormData(evt.target))
-        .then(
-          appendNotifiction(successTemplate, () => closeForm())
-        )
-        .catch(
-          appendNotifiction(errorTemplate)
-        )
-        .finally(unblockSubmitButton);
-    }
-  });
-};
-*/
 export {setSubmitForm, closeForm};
