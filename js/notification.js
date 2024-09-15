@@ -9,7 +9,7 @@ const closeNotification = (evt) => {
   if (evt.target === existElement || evt.target === closeButton || isEscapeKey(evt)) {
     existElement.remove();
     body.removeEventListener('click', closeNotification);
-    body.removeEventListener('click', closeNotification);
+    body.removeEventListener('keydown', closeNotification);
   }
 };
 
@@ -21,4 +21,4 @@ const appendNotifiction = (template, trigger = null) => {
   body.addEventListener('keydown', closeNotification);
 };
 
-export {closeNotification, appendNotifiction};
+export {appendNotifiction};

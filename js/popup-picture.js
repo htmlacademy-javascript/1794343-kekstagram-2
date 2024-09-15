@@ -15,6 +15,29 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
+function setupPopup (data) {
+  picturesBlock.addEventListener('click', (evt) => {
+    const currentElement = evt.target.closest('.picture');
+    const currentId = currentElement.dataset.pictureId;
+    const currentPhoto = data.find((photo) =>
+      photo.id === Number(currentId));
+    if (currentElement) {
+      evt.preventDefault();
+      openPopup(currentPhoto);
+    }
+  });
+}
+function openPopup (currentPhoto) {
+  bigPictureImg.src = currentPhoto.url;
+  bigPictureSocialCaption.textContent = currentPhoto.description;
+  bigPicturelikescount.textContent = currentPhoto.likes;
+  generateComments(currentPhoto.comments);
+  bigPicture.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  document.addEventListener('keydown', onDocumentKeydown);
+}
+
+
 /*picturesBlock.addEventListener('click', (evt) => {
   const currentPhoto = evt.target.closest('.picture');
   if (currentPhoto) {
@@ -23,7 +46,7 @@ const onDocumentKeydown = (evt) => {
   }
 });*/
 
-function openPopup (data) {
+/*function openPopup (data) {
   picturesBlock.addEventListener('click', (evt) => {
     const currentElement = evt.target.closest('.picture');
     if (currentElement) {
@@ -40,7 +63,7 @@ function openPopup (data) {
       document.addEventListener('keydown', onDocumentKeydown);
     }
   });
-}
+}*/
 
 function closePopup () {
   bigPicture.classList.add('hidden');
@@ -54,4 +77,4 @@ bigPictureCancel.addEventListener('click', (evt) => {
   closePopup();
 });
 
-export {openPopup};
+export {setupPopup};

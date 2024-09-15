@@ -1,5 +1,4 @@
 import {SCALE, FILTERS_EFFECTS} from './data-for-effects';
-//import './user-photo.js';
 
 const form = document.querySelector('.img-upload__form');
 const scaleControlSmaller = form.querySelector('.scale__control--smaller');
