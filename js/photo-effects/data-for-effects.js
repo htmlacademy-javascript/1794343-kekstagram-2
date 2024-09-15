@@ -1,4 +1,4 @@
-const SCALE = {
+const Scale = {
   STEP: 25,
   MIN: 25,
   MAX: 100,
@@ -51,4 +51,4 @@ const FILTERS_EFFECTS = {
   }
 };
 
-export {SCALE, FILTERS_EFFECTS};
+export {Scale, FILTERS_EFFECTS};
