@@ -5,7 +5,7 @@ const Scale = {
   DEFAULT: 100,
 };
 
-const FILTERS_EFFECTS = {
+const filterEffects = {
   none: {
     filter: 'none',
   },
@@ -51,4 +51,4 @@ const FILTERS_EFFECTS = {
   }
 };
 
-export {Scale, FILTERS_EFFECTS};
+export {Scale, filterEffects};

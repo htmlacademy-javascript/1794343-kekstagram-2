@@ -5,12 +5,13 @@ const DEBOUNCE_DELAY = 500;
 const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 const RANDOM_PHOTOS_MAX_COUNT = 10;
 
-const imgFiltersBlock = document.querySelector('.img-filters');
 const Filters = {
   DEFAULT: 'filter-default',
   RANDOM: 'filter-random',
   DISCUSSED: 'filter-discussed'
 };
+
+const imgFiltersBlock = document.querySelector('.img-filters');
 
 let photos = [];
 let currentFilter = Filters.DEFAULT;

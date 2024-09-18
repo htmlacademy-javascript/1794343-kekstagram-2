@@ -3,15 +3,15 @@ import {appendNotifiction} from '../notification.js';
 import {closeForm} from './open-and-close.js';
 import {pristine} from './validate-data.js';
 
-const form = document.querySelector('.img-upload__form');
-const submitButton = form.querySelector('.img-upload__submit');
-const errorTemplate = document.querySelector('#error').content;
-const successTemplate = document.querySelector('#success').content;
-
 const SubmitButtonText = {
   IDLE: 'Отправить',
   SENDING: 'Отправляю...'
 };
+
+const form = document.querySelector('.img-upload__form');
+const submitButton = form.querySelector('.img-upload__submit');
+const errorTemplate = document.querySelector('#error').content;
+const successTemplate = document.querySelector('#success').content;
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
