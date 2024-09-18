@@ -1,4 +1,4 @@
-import {FILTERS_EFFECTS} from './data-for-effects';
+import {filterEffects} from './data-for-effects';
 
 const form = document.querySelector('.img-upload__form');
 const imgUploadPreview = form.querySelector('.img-upload__preview img');
@@ -45,7 +45,7 @@ const clearFilter = () => {
 const applyEffect = () => {
   effectsRadio.forEach((effectRadio) => {
     const effectValue = effectRadio.value;
-    const effectName = FILTERS_EFFECTS[effectValue];
+    const effectName = filterEffects[effectValue];
 
     if (effectRadio.checked) {
       if (effectValue !== 'none') {
