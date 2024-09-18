@@ -3,6 +3,8 @@ import {clearFilter} from '../photo-effects/apply-effects.js';
 import {clearScale} from '../photo-effects/changing-scale.js';
 import {pristine} from './validate-data.js';
 
+const FILE_TYPES = ['.jpg', '.jpeg', '.png', '.gif', '.gfif'];
+
 const form = document.querySelector('.img-upload__form');
 const imgUploadInput = form.querySelector('.img-upload__input');
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
@@ -11,8 +13,6 @@ const textDescription = form.querySelector('.text__description');
 const textHashtags = form.querySelector('.text__hashtags');
 const imgUploadOverlay = form.querySelector('.img-upload__overlay');
 const imgUploadCancel = form.querySelector('.img-upload__cancel');
-
-const FILE_TYPES = ['.jpg', '.jpeg', '.png', '.gif', '.gfif'];
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {

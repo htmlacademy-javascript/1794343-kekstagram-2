@@ -7,6 +7,7 @@ const effectLevelValue = form.querySelector('.effect-level__value');
 const effectLevelSlider = form.querySelector('.effect-level__slider');
 const effectsList = form.querySelector('.effects__list');
 const effectsRadio = form.querySelectorAll('.effects__radio');
+const effectNone = form.querySelector('#effect-none');
 
 noUiSlider.create(effectLevelSlider, {
   range: {
@@ -38,6 +39,7 @@ imgUploadEffectLevel.classList.add('hidden');
 const clearFilter = () => {
   imgUploadEffectLevel.classList.add('hidden');
   imgUploadPreview.style.filter = 'none';
+  effectNone.checked = true;
 };
 
 const applyEffect = () => {

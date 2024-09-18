@@ -1,21 +1,21 @@
+const COMMENTS_LENGTH_MAX = 140;
 const form = document.querySelector('.img-upload__form');
 const textDescription = form.querySelector('.text__description');
 const textHashtags = form.querySelector('.text__hashtags');
 
-const COMMENTS_LENGTH_MAX = 140;
 const Hashtag = {
   LENGTH_MIN: 2,
   LENGTH_MAX: 20,
   COUNT_MAX: 5
 };
 
-let errorMessage = '';
-
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--error',
   errorTextParent: 'img-upload__field-wrapper'
 });
+
+let errorMessage = '';
 
 const validateComments = (value) => {
   if (value.length === 0) {
