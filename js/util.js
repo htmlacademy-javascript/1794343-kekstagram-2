@@ -1,6 +1,5 @@
-const errorTemplate = document.querySelector('#data-error').content;
 const ALERT_SHOW_TIME = 5000;
-const DEBOUNCE_DELAY = 500;
+const errorTemplate = document.querySelector('#data-error').content;
 
 const appendDataError = (errorMessage) => {
   const notificationBlock = errorTemplate.cloneNode(true);
@@ -15,7 +14,7 @@ const appendDataError = (errorMessage) => {
   }, ALERT_SHOW_TIME);
 };
 
-const debounce = (callback, timeoutDelay = DEBOUNCE_DELAY) => {
+const debounce = (callback, timeoutDelay) => {
   let timeoutId;
 
   return (...rest) => {

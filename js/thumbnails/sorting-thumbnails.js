@@ -1,24 +1,19 @@
 import {renderPhotoDescriptions} from './render-thumbnails';
 import {debounce} from '../util';
 
-const imgFiltersBlock = document.querySelector('.img-filters');
-
+const DEBOUNCE_DELAY = 500;
 const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
+const RANDOM_PHOTOS_MAX_COUNT = 10;
 
-let photos = [];
+const imgFiltersBlock = document.querySelector('.img-filters');
 const Filters = {
   DEFAULT: 'filter-default',
   RANDOM: 'filter-random',
   DISCUSSED: 'filter-discussed'
 };
+
+let photos = [];
 let currentFilter = Filters.DEFAULT;
-
-const SortingFuncs = {
-  RANDOM: () => 0.5 - Math.random(),
-  DISCUSSED: (a, b) => b.comments.length - a.comments.length
-};
-
-const RANDOM_PHOTOS_MAX_COUNT = 10;
 
 const clearThumbnails = () => {
   const thumbnails = document.querySelectorAll('a.picture');
@@ -28,7 +23,7 @@ const clearThumbnails = () => {
 const debounceRender = debounce((data) => {
   clearThumbnails();
   renderPhotoDescriptions(data);
-}, 500);
+}, DEBOUNCE_DELAY);
 
 const onFilterChange = (evt) => {
   const targetButton = evt.target;
@@ -42,20 +37,20 @@ const onFilterChange = (evt) => {
   activeButton.classList.toggle(ACTIVE_BUTTON_CLASS);
   targetButton.classList.toggle(ACTIVE_BUTTON_CLASS);
   currentFilter = targetButton.getAttribute('id');
-  sortingThumbnails();
+  sortThumbnails();
 };
 
-function sortingThumbnails () {
+function sortThumbnails () {
   let sortedPhotos = [];
   switch (currentFilter) {
     case Filters.DEFAULT:
       sortedPhotos = photos;
       break;
     case Filters.RANDOM:
-      sortedPhotos = photos.toSorted(SortingFuncs.RANDOM).slice(0, RANDOM_PHOTOS_MAX_COUNT);
+      sortedPhotos = photos.toSorted(() => 0.5 - Math.random()).slice(0, RANDOM_PHOTOS_MAX_COUNT);
       break;
     case Filters.DISCUSSED:
-      sortedPhotos = photos.toSorted(SortingFuncs.DISCUSSED);
+      sortedPhotos = photos.toSorted((a, b) => b.comments.length - a.comments.length);
   }
 
   debounceRender(sortedPhotos);
