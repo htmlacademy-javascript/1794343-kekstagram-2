@@ -4,14 +4,14 @@ const commentShownCount = bigPicture.querySelector('.social__comment-shown-count
 const commentTotalCount = bigPicture.querySelector('.social__comment-total-count');
 const socialComments = bigPicture.querySelector('.social__comments');
 const socialCommentTemplate = bigPicture.querySelector('.social__comment');
-const commentsLoader = bigPicture.querySelector('.comments-loader');
+const commentsLoaderButton = bigPicture.querySelector('.comments-loader');
 
 let comments = [];
 let currentCount = 0;
 
 socialComments.innerHTML = '';
 
-const generateNextComments = () => {
+const onCommentsLoaderButtonClick = () => {
   const newComments = comments.slice(currentCount, currentCount + COMMENTS_STEP);
   const length = currentCount + newComments.length;
 
@@ -27,21 +27,21 @@ const generateNextComments = () => {
   currentCount += COMMENTS_STEP;
 
   if (length >= comments.length) {
-    commentsLoader.classList.add('hidden');
+    commentsLoaderButton.classList.add('hidden');
   }
 };
 
 const generateComments = (currentPhotoComments) => {
   comments = currentPhotoComments;
-  generateNextComments();
-  commentsLoader.addEventListener('click', generateNextComments);
+  onCommentsLoaderButtonClick();
+  commentsLoaderButton.addEventListener('click', onCommentsLoaderButtonClick);
 };
 
 const clearComments = () => {
   currentCount = 0;
   socialComments.innerHTML = '';
-  commentsLoader.classList.remove('hidden');
-  commentsLoader.removeEventListener('click', generateNextComments);
+  commentsLoaderButton.classList.remove('hidden');
+  commentsLoaderButton.removeEventListener('click', onCommentsLoaderButtonClick);
 };
 
 export {clearComments, generateComments};

@@ -15,7 +15,7 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-const setupPopup = (data) => {
+const onThumbnailClick = (data) => {
   picturesBlock.addEventListener('click', (evt) => {
     const currentElement = evt.target.closest('.picture');
     if (currentElement) {
@@ -50,4 +50,4 @@ bigPictureCancel.addEventListener('click', (evt) => {
   closePopup();
 });
 
-export {setupPopup};
+export {onThumbnailClick};

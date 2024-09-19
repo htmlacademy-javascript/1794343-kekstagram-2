@@ -57,10 +57,10 @@ function sortThumbnails () {
   debounceRender(sortedPhotos);
 }
 
-const configSoritng = (data) => {
+const configurateSoritng = (data) => {
   imgFiltersBlock.classList.remove('img-filters--inactive');
   imgFiltersBlock.addEventListener('click', (onFilterChange));
   photos = data;
 };
 
-export {configSoritng};
+export {configurateSoritng};

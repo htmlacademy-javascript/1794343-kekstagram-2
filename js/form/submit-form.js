@@ -23,7 +23,7 @@ const unblockSubmitButton = () => {
   submitButton.textContent = SubmitButtonText.IDLE;
 };
 
-const setSubmitForm = () => {
+const onSubmitButtonClick = () => {
   if (pristine.validate()) {
     blockSubmitButton();
     sendData(new FormData(form))
@@ -39,7 +39,7 @@ const setSubmitForm = () => {
 
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  setSubmitForm();
+  onSubmitButtonClick();
 });
 
-export {setSubmitForm};
+export {onSubmitButtonClick};

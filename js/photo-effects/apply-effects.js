@@ -42,7 +42,7 @@ const clearFilter = () => {
   effectNone.checked = true;
 };
 
-const applyEffect = () => {
+const onEffectsChange = () => {
   effectsRadio.forEach((effectRadio) => {
     const effectValue = effectRadio.value;
     const effectName = filterEffects[effectValue];
@@ -68,6 +68,6 @@ const applyEffect = () => {
   });
 };
 
-effectsList.addEventListener('change', applyEffect);
+effectsList.addEventListener('change', onEffectsChange);
 
 export {clearFilter};
