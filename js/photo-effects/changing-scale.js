@@ -2,8 +2,8 @@ import {Scale} from './data-for-effects';
 
 const HUNDRED_PERCENT = 100;
 const form = document.querySelector('.img-upload__form');
-const scaleControlSmaller = form.querySelector('.scale__control--smaller');
-const scaleControlBigger = form.querySelector('.scale__control--bigger');
+const scaleControlSmallerButton = form.querySelector('.scale__control--smaller');
+const scaleControlBiggerButton = form.querySelector('.scale__control--bigger');
 const scaleControlValue = form.querySelector('.scale__control--value');
 const imgUploadPreview = form.querySelector('.img-upload__preview img');
 
@@ -14,19 +14,19 @@ const changePhoto = () => {
   scaleControlValue.setAttribute('value', `${newScaleControlValue}%`);
 };
 
-const decreaseSize = () => {
+const onSmallerButtonClick = () => {
   if (newScaleControlValue > Scale.MIN) {
     newScaleControlValue -= Scale.STEP;
     changePhoto();
   }
 };
 
-scaleControlSmaller.addEventListener('click', (evt) => {
+scaleControlSmallerButton.addEventListener('click', (evt) => {
   evt.preventDefault();
-  decreaseSize();
+  onSmallerButtonClick();
 });
 
-const increaseSize = () => {
+const onBiggerButtonClick = () => {
   if (newScaleControlValue < Scale.MAX) {
     newScaleControlValue += Scale.STEP;
     changePhoto();
@@ -38,9 +38,9 @@ const clearScale = () => {
   changePhoto();
 };
 
-scaleControlBigger.addEventListener('click', (evt) => {
+scaleControlBiggerButton.addEventListener('click', (evt) => {
   evt.preventDefault();
-  increaseSize();
+  onBiggerButtonClick();
 });
 
 export {clearScale};

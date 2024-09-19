@@ -31,7 +31,7 @@ pristine.addValidator(
   `не более ${COMMENTS_LENGTH_MAX} символов`
 );
 
-const error = () => errorMessage;
+const generateError = () => errorMessage;
 
 const validateHashtags = (value) => {
   errorMessage = '';
@@ -81,7 +81,7 @@ const validateHashtags = (value) => {
 pristine.addValidator(
   textHashtags,
   validateHashtags,
-  error
+  generateError
 );
 
 export {pristine};
